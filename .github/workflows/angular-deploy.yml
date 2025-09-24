@@ -33,37 +33,28 @@ jobs:
       
       - name: Install dependencies
         run: |
-          # Clean up
           rm -rf node_modules
           rm -f package-lock.json
-          
-          # Clear npm cache
           npm cache clean --force
           
-          # Install Angular CLI
           npm install -g @angular/cli@17.3.17
-          
-          # Install project dependencies
           npm install --legacy-peer-deps
           
-          # Install build essentials
           sudo apt-get update
           sudo apt-get install -y build-essential
       
-      - name: Build
+      - name: Build Angular app
         run: |
-          # Create a basic angular.json if it doesn't exist
-          if [ ! -f angular.json ]; then
-            ng config -g cli.packageManager npm
-            ng new free-tech-tools-app --directory . --skip-git --skip-tests --minimal --style=scss --routing=true --strict
-          fi
+          # Build for root domain (custom domain)
+          ng build --configuration production --base-href="/"
           
-          # Build the application
-          ng build --configuration production --output-path=dist --base-href="/free-tech-tools-app/"
+          # GitHub Pages setup
+          APP_DIST=dist/free-tech-tools-app
+          cp $APP_DIST/index.html $APP_DIST/404.html
+          touch $APP_DIST/.nojekyll
           
-          # Prepare for GitHub Pages
-          cp dist/index.html dist/404.html
-          touch dist/.nojekyll
+          # Add CNAME for custom domain
+          echo "freetechtools.com" > $APP_DIST/CNAME
       
       - name: Setup Pages
         uses: actions/configure-pages@v4
@@ -71,7 +62,7 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: 'dist'
+          path: 'dist/free-tech-tools-app'
       
       - name: Deploy to GitHub Pages
         id: deployment
