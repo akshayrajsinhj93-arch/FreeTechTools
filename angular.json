@@ -49,6 +49,11 @@
             "inlineStyleLanguage": "scss",
             "assets": [
               {
+                "glob": "favicon.ico",
+                "input": "src",
+                "output": "."
+              },
+              {
                 "glob": "CNAME",
                 "input": "src",
                 "output": "."
