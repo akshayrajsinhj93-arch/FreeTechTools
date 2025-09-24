@@ -2,28 +2,27 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>FreeTechTools - Loading...</title>
+    <title>FreeTechTools - Redirecting...</title>
     <script>
-        // Get the current path and redirect to index.html with the path as a hash
-        const path = window.location.pathname.replace(/^\/FreeTechTools\//, '/');
+        // Get the current path and redirect to index.html with the path
+        const path = window.location.pathname;
         const search = window.location.search;
         const hash = window.location.hash;
         
-        // For GitHub Pages, we'll use hash-based routing
-        let redirectTo = '/FreeTechTools/index.html';
+        // Redirect to the main app with the current path
+        const basePath = '/FreeTechTools';
+        let newPath = `${basePath}/index.html`;
         
-        // If this is a direct route access (not already using hash routing)
-        if (path && path !== '/' && path !== '/index.html') {
-            // Convert path to hash route
-            const route = path.replace(/^\//, '');
-            redirectTo = `/FreeTechTools/index.html#/${route}${search}${hash}`;
-        } else if (search || hash) {
-            // Preserve query parameters and hash
-            redirectTo = `/FreeTechTools/index.html${search}${hash}`;
+        // If we're not already at the root, preserve the path
+        if (path && !path.endsWith('/index.html') && path !== '/FreeTechTools/') {
+            newPath = `${basePath}/index.html#${path.replace('/FreeTechTools', '')}`;
         }
         
+        // Preserve query parameters and hash
+        const redirectUrl = `${newPath}${search}${hash}`;
+        
         // Redirect
-        window.location.replace(redirectTo);
+        window.location.replace(redirectUrl);
     </script>
     <style>
         body {
