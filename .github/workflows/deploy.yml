@@ -20,7 +20,10 @@ jobs:
         run: npm ci
         
       - name: Build
-        run: npm run build -- --configuration=production --base-href="/FreeTechTools/"
+        run: |
+          npm run build -- --configuration=production --base-href="/"
+          # Create a 404.html file for GitHub Pages SPA routing
+          cp dist/free-tech-tools-app/browser/index.html dist/free-tech-tools-app/browser/404.html
         
       - name: Deploy to GitHub Pages
         uses: JamesIves/github-pages-deploy-action@v4

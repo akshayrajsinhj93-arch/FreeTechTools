@@ -87,7 +87,7 @@
                 }
               ],
               "outputHashing": "all",
-            "baseHref": "/FreeTechTools/"
+            "baseHref": "/"
             },
             "development": {
               "optimization": false,
