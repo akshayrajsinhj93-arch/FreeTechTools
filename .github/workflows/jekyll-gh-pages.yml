@@ -31,8 +31,12 @@ jobs:
           node-version: '20.x'
           cache: 'npm'
       
-      - name: Install dependencies
-        run: npm install --force
+      - name: Clean npm cache and install
+        run: |
+          npm cache clean --force
+          rm -rf node_modules
+          rm -f package-lock.json
+          npm install --no-package-lock
       
       - name: Build
         run: |
