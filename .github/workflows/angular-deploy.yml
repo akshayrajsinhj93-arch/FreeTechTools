@@ -20,78 +20,52 @@ jobs:
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
-    
+
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-      
+
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '18.17.1'
           cache: 'npm'
-      
+
       - name: Install dependencies
         run: |
-          # Clean up
           rm -rf node_modules
           rm -f package-lock.json
-          
-          # Clear npm cache
           npm cache clean --force
-          
-          # Install Angular CLI
+
           npm install -g @angular/cli@17.3.17
-          
-          # Install project dependencies
           npm install --legacy-peer-deps
-          
-          # Install build essentials
+
           sudo apt-get update
           sudo apt-get install -y build-essential
-      
-      - name: Verify Angular configuration
+
+      - name: Build Angular app
         run: |
-          # Check if angular.json exists and is valid
-          if [ ! -f angular.json ]; then
-            echo "angular.json not found. Initializing a new Angular project..."
-            npx @angular/cli@17.3.17 new free-tech-tools-app --directory . --skip-git --skip-tests --minimal --style=scss --routing=true --strict --package-manager=npm
-          elif ! jq empty angular.json 2>/dev/null; then
-            echo "Invalid angular.json. Backing up and creating a new one..."
-            mv angular.json angular.json.bak
-            npx @angular/cli@17.3.17 new free-tech-tools-app --directory . --skip-git --skip-tests --minimal --style=scss --routing=true --strict --package-manager=npm
-          fi
-          
-          # Verify the configuration
-          npx ng config -g cli.packageManager npm
-          
-      - name: Build
-        run: |
-          # Install dependencies again after potential project initialization
-          npm install
-          
-          # Build the application with detailed output
-          echo "Building Angular application..."
-          npx ng version
-          npx ng build --configuration production --output-path=dist --base-href="/free-tech-tools-app/"
-          
-          # Verify build output
-          echo "Build output:"
-          ls -la dist/
-          
-          # Prepare for GitHub Pages
-          echo "Preparing for GitHub Pages..."
-          cp dist/index.html dist/404.html 2>/dev/null || echo "index.html not found in dist/"
-          touch dist/.nojekyll
-      
+          # Build for root domain (custom domain)
+          ng build --configuration production --base-href="/"
+
+          # Set the dist path variable
+          APP_DIST=dist/free-tech-tools-app
+
+          # GitHub Pages setup
+          cp $APP_DIST/index.html $APP_DIST/404.html
+          touch $APP_DIST/.nojekyll
+
+          # Add CNAME for custom domain
+          echo "freetechtools.com" > $APP_DIST/CNAME
+
       - name: Setup Pages
         uses: actions/configure-pages@v4
-      
+
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: 'dist'
-      
+          path: 'dist/free-tech-tools-app'
+
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
