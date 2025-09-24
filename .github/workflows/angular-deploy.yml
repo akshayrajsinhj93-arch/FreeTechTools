@@ -50,19 +50,38 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y build-essential
       
-      - name: Build
+      - name: Verify Angular configuration
         run: |
-          # Create a basic angular.json if it doesn't exist
+          # Check if angular.json exists and is valid
           if [ ! -f angular.json ]; then
-            ng config -g cli.packageManager npm
-            ng new free-tech-tools-app --directory . --skip-git --skip-tests --minimal --style=scss --routing=true --strict
+            echo "angular.json not found. Initializing a new Angular project..."
+            npx @angular/cli@17.3.17 new free-tech-tools-app --directory . --skip-git --skip-tests --minimal --style=scss --routing=true --strict --package-manager=npm
+          elif ! jq empty angular.json 2>/dev/null; then
+            echo "Invalid angular.json. Backing up and creating a new one..."
+            mv angular.json angular.json.bak
+            npx @angular/cli@17.3.17 new free-tech-tools-app --directory . --skip-git --skip-tests --minimal --style=scss --routing=true --strict --package-manager=npm
           fi
           
-          # Build the application
-          ng build --configuration production --output-path=dist --base-href="/free-tech-tools-app/"
+          # Verify the configuration
+          npx ng config -g cli.packageManager npm
+          
+      - name: Build
+        run: |
+          # Install dependencies again after potential project initialization
+          npm install
+          
+          # Build the application with detailed output
+          echo "Building Angular application..."
+          npx ng version
+          npx ng build --configuration production --output-path=dist --base-href="/free-tech-tools-app/"
+          
+          # Verify build output
+          echo "Build output:"
+          ls -la dist/
           
           # Prepare for GitHub Pages
-          cp dist/index.html dist/404.html
+          echo "Preparing for GitHub Pages..."
+          cp dist/index.html dist/404.html 2>/dev/null || echo "index.html not found in dist/"
           touch dist/.nojekyll
       
       - name: Setup Pages
