@@ -28,23 +28,42 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '20.x'
+          node-version: '18.17.1'  # Specific LTS version
           cache: 'npm'
+          cache-dependency-path: '**/package-lock.json'
       
-      - name: Clean npm cache and install
+      - name: Debug node and npm versions
         run: |
-          npm cache clean --force
+          node -v
+          npm -v
+      
+      - name: Clean install
+        run: |
+          # Remove existing node_modules and lock files
           rm -rf node_modules
           rm -f package-lock.json
-          npm install --no-package-lock
+          
+          # Clear npm cache
+          npm cache clean --force
+          
+          # Install with verbose output
+          npm install --no-optional --legacy-peer-deps --verbose
+          
+          # Verify installation
+          npm list --depth=0 || true
       
       - name: Build
         run: |
-          npm run build -- --configuration=production --base-href="/free-tech-tools-app/"
-          # Create a 404.html file for GitHub Pages SPA routing
-          cp dist/free-tech-tools-app/browser/index.html dist/free-tech-tools-app/browser/404.html
-          # Create .nojekyll file to disable Jekyll processing
-          touch dist/free-tech-tools-app/browser/.nojekyll
+          # Build with detailed output
+          npx ng version
+          npx ng build --configuration=production --output-path=dist --base-href="/free-tech-tools-app/" --progress
+          
+          # Verify build output
+          ls -la dist/
+          
+          # Create 404.html for SPA routing
+          cp dist/index.html dist/404.html
+          touch dist/.nojekyll
       
       - name: Setup Pages
         uses: actions/configure-pages@v4
@@ -52,7 +71,7 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: 'dist/free-tech-tools-app/browser'
+          path: 'dist'
       
       - name: Deploy to GitHub Pages
         id: deployment
