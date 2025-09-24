@@ -1,0 +1,20 @@
+<header class="header">
+  <div class="header-container">
+    <a href="/" class="logo">FreeTechTools</a>
+    <button class="mobile-menu-button" (click)="toggleMobileMenu()" aria-label="Toggle menu">
+      <span class="hamburger">☰</span>
+    </button>
+    <nav class="desktop-nav">
+      <a [routerLink]="['/']" [fragment]="'home'">Home</a>
+      <a [routerLink]="['/']" [fragment]="'text-to-pdf'">Text to PDF</a>
+      <a [routerLink]="['/']" [fragment]="'bg-remover'">BG Remover</a>
+      <a [routerLink]="['/']" [fragment]="'bmi-calculator'">BMI Calculator</a>
+    </nav>
+  </div>
+  <div class="mobile-nav" [class.show]="showMobileMenu">
+    <a [routerLink]="['/']" [fragment]="'home'" (click)="closeMenu()">Home</a>
+    <a [routerLink]="['/']" [fragment]="'text-to-pdf'" (click)="closeMenu()">Text to PDF</a>
+    <a [routerLink]="['/']" [fragment]="'bg-remover'" (click)="closeMenu()">BG Remover</a>
+    <a [routerLink]="['/']" [fragment]="'bmi-calculator'" (click)="closeMenu()">BMI Calculator</a>
+  </div>
+</header>

@@ -1,0 +1,38 @@
+<footer class="footer">
+  <div class="container">
+    <div class="footer-content">
+      <div class="footer-section">
+        <h3>FreeTechTools</h3>
+        <p>Your one-stop destination for free online tools to make your life easier.</p>
+      </div>
+      <div class="footer-section">
+        <h4>Quick Links</h4>
+        <ul>
+          <li><a [routerLink]="['/']" fragment="home">Home</a></li>
+          <li><a [routerLink]="['/']" fragment="text-to-pdf">Text to PDF</a></li>
+          <li><a [routerLink]="['/']" fragment="bg-remover">BG Remover</a></li>
+          <li><a [routerLink]="['/']" fragment="bmi-calculator">BMI Calculator</a></li>
+        </ul>
+      </div>
+      <div class="footer-section">
+        <h4>Legal</h4>
+        <ul>
+          <li><a href="#">Privacy Policy</a></li>
+          <li><a href="#">Terms of Service</a></li>
+          <li><a href="#">Cookie Policy</a></li>
+        </ul>
+      </div>
+      <div class="footer-section">
+        <h4>Connect</h4>
+        <div class="social-links">
+          <a href="#" aria-label="Twitter">🐦</a>
+          <a href="#" aria-label="GitHub">💻</a>
+          <a href="#" aria-label="Email">✉️</a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; {{ currentYear }} FreeTechTools. All rights reserved.</p>
+    </div>
+  </div>
+</footer>

@@ -1,0 +1,24 @@
+<div class="app-container">
+  <app-header>
+    <nav>
+      <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Home</a>
+      <a routerLink="/text-to-pdf" routerLinkActive="active">Text to PDF</a>
+    </nav>
+  </app-header>
+  
+  <main class="main-content">
+    <div class="ad-container">
+      <div class="ad-banner">Advertisement</div>
+    </div>
+    
+    <div class="container">
+      <router-outlet></router-outlet>
+    </div>
+
+    <div class="ad-container">
+      <div class="ad-banner">Advertisement</div>
+    </div>
+  </main>
+
+  <app-footer></app-footer>
+</div>

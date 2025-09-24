@@ -1,0 +1,92 @@
+<div class="tool-container">
+  <h2 class="tool-title">Text to PDF Converter</h2>
+  <p class="tool-description">Convert your text to a downloadable PDF file. Simply type or paste your text below and click the 'Convert to PDF' button.</p>
+  
+  <div class="converter-card">
+    <form [formGroup]="pdfForm" (ngSubmit)="convertToPdf()">
+      <div class="form-group">
+        <label for="textContent">Enter your text here</label>
+        <textarea 
+          id="textContent"
+          formControlName="textContent" 
+          rows="10" 
+          placeholder="Type or paste your text here..."
+          class="form-control"
+          [class.error]="pdfForm.get('textContent')?.invalid && pdfForm.get('textContent')?.touched"
+        ></textarea>
+        <div class="hint">Maximum 10,000 characters</div>
+        <div class="error-message" *ngIf="pdfForm.get('textContent')?.hasError('required') && pdfForm.get('textContent')?.touched">
+          Please enter some text to convert
+        </div>
+        <div class="error-message" *ngIf="pdfForm.get('textContent')?.hasError('maxlength')">
+          Text is too long (max 10,000 characters)
+        </div>
+      </div>
+
+      <div class="options-container">
+        <div class="form-group file-name-input">
+          <label for="fileName">File name</label>
+          <div class="input-with-suffix">
+            <input 
+              id="fileName" 
+              type="text" 
+              formControlName="fileName" 
+              placeholder="document"
+              class="form-control"
+            >
+            <span class="suffix">.pdf</span>
+          </div>
+          <div class="hint">Leave blank to use default name</div>
+        </div>
+
+        <div class="form-group page-size-select">
+          <label for="pageSize">Page Size</label>
+          <select id="pageSize" formControlName="pageSize" class="form-control">
+            <option value="a4">A4</option>
+            <option value="letter">Letter</option>
+            <option value="a5">A5</option>
+            <option value="legal">Legal</option>
+          </select>
+        </div>
+
+        <div class="form-group orientation-select">
+          <label for="orientation">Orientation</label>
+          <select id="orientation" formControlName="orientation" class="form-control">
+            <option value="portrait">Portrait</option>
+            <option value="landscape">Landscape</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="action-buttons">
+        <button 
+          type="submit"
+          class="btn btn-primary"
+          [disabled]="!pdfForm.valid || isGenerating">
+          <span class="btn-icon">📄</span>
+          {{ isGenerating ? 'Generating...' : 'Convert to PDF' }}
+          <div class="progress-indicator" *ngIf="isGenerating"></div>
+        </button>
+
+        <button 
+          type="button"
+          class="btn btn-outline"
+          (click)="clearForm()"
+          [disabled]="isGenerating">
+          <span class="btn-icon">🗑️</span>
+          Clear
+        </button>
+      </div>
+    </form>
+  </div>
+
+  <div class="tool-tips">
+    <h3><span class="icon">💡</span> Tips for better PDFs</h3>
+    <ul>
+      <li>Use blank lines to separate paragraphs</li>
+      <li>For headings, use ALL CAPS or **double asterisks** for emphasis</li>
+      <li>Keep lines under 100 characters for better readability</li>
+      <li>Use page breaks by typing '---' on a new line</li>
+    </ul>
+  </div>
+</div>

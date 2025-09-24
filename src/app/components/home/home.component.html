@@ -1,0 +1,62 @@
+<div class="hero">
+  <div class="hero-content">
+    <h1>Welcome to FreeTechTools</h1>
+    <p class="subtitle">
+      A collection of free, easy-to-use online tools to simplify your daily tasks
+    </p>
+    <div class="cta-buttons">
+      <button class="btn btn-primary" (click)="scrollToElement(toolsSection)">
+        Explore Tools
+      </button>
+      <button class="btn btn-outline" (click)="scrollToElement(aboutSection)">
+        Learn More
+      </button>
+    </div>
+  </div>
+</div>
+
+<main>
+  <section #toolsSection class="tools-section">
+    <h2 class="section-title">Our Tools</h2>
+    <p class="section-subtitle">Choose from our collection of free online tools</p>
+
+    <div class="tools-grid">
+      <div *ngFor="let tool of tools" class="tool-card" [class]="'tool-card--' + tool.color">
+        <div class="tool-header">
+          <div class="tool-icon">
+            <span class="icon">{{ tool.icon }}</span>
+          </div>
+          <h3 class="tool-title">{{ tool.title }}</h3>
+        </div>
+        <div class="tool-content">
+          <p>{{ tool.description }}</p>
+        </div>
+        <div class="tool-actions">
+          <a [routerLink]="tool.route" class="tool-link">
+            Use Tool <span class="arrow">→</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section #aboutSection class="about-section">
+    <div class="about-content">
+      <h2 class="section-title">About FreeTechTools</h2>
+      <div class="about-text">
+        <p>
+          FreeTechTools is a collection of free, easy-to-use online tools designed to help you
+          with various tasks without the need to install any software.
+        </p>
+        <p>
+          Our tools are completely free to use, with no hidden fees or subscriptions. We believe
+          in providing high-quality tools that are accessible to everyone.
+        </p>
+        <p>
+          Whether you need to convert files, edit images, or perform calculations, we've got you
+          covered!
+        </p>
+      </div>
+    </div>
+  </section>
+</main>
