@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>FreeTechTools - Loading...</title>
+    <script>
+        // Get the current path and redirect to index.html with the path as a hash
+        const path = window.location.pathname.replace(/^\/FreeTechTools\//, '/');
+        const search = window.location.search;
+        const hash = window.location.hash;
+        
+        // For GitHub Pages, we'll use hash-based routing
+        let redirectTo = '/FreeTechTools/index.html';
+        
+        // If this is a direct route access (not already using hash routing)
+        if (path && path !== '/' && path !== '/index.html') {
+            // Convert path to hash route
+            const route = path.replace(/^\//, '');
+            redirectTo = `/FreeTechTools/index.html#/${route}${search}${hash}`;
+        } else if (search || hash) {
+            // Preserve query parameters and hash
+            redirectTo = `/FreeTechTools/index.html${search}${hash}`;
+        }
+        
+        // Redirect
+        window.location.replace(redirectTo);
+    </script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f5f5f5;
+        }
+        .loader {
+            text-align: center;
+            padding: 2rem;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .spinner {
+            border: 4px solid rgba(0,0,0,0.1);
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            border-left-color: #3f51b5;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 1rem;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <div class="loader">
+        <div class="spinner"></div>
+        <h2>Loading FreeTechTools...</h2>
+        <p>Redirecting to the requested page. If you're not redirected, <a href="/FreeTechTools/">click here</a>.</p>
+    </div>
+</body>
+</html>
