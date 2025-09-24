@@ -16,7 +16,7 @@ interface SeoData {
   providedIn: 'root'
 })
 export class SeoService {
-  private baseUrl = 'https://yourdomain.com';
+  private baseUrl = 'https://freetechtools.com';
   private defaultImage = '/assets/images/og-image.jpg';
 
   constructor(
