@@ -28,40 +28,34 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '18.17.1'  # Specific LTS version
+          node-version: '18.17.1'
           cache: 'npm'
           cache-dependency-path: '**/package-lock.json'
       
-      - name: Debug node and npm versions
+      - name: Install dependencies
         run: |
-          node -v
-          npm -v
-      
-      - name: Clean install
-        run: |
-          # Remove existing node_modules and lock files
+          # Clean up
           rm -rf node_modules
           rm -f package-lock.json
           
           # Clear npm cache
           npm cache clean --force
           
-          # Install with verbose output
-          npm install --no-optional --legacy-peer-deps --verbose
+          # Install Angular CLI and esbuild globally
+          npm install -g @angular/cli@17.3.17
+          npm install -g esbuild
           
-          # Verify installation
-          npm list --depth=0 || true
+          # Install project dependencies
+          npm install --legacy-peer-deps
+          npm install esbuild@latest --save-dev
       
       - name: Build
         run: |
-          # Build with detailed output
-          npx ng version
-          npx ng build --configuration=production --output-path=dist --base-href="/free-tech-tools-app/" --progress
+          # Build the application
+          ng version
+          ng build --configuration=production --output-path=dist --base-href="/free-tech-tools-app/"
           
-          # Verify build output
-          ls -la dist/
-          
-          # Create 404.html for SPA routing
+          # Prepare for GitHub Pages
           cp dist/index.html dist/404.html
           touch dist/.nojekyll
       
