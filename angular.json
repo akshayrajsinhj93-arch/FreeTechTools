@@ -70,7 +70,8 @@
             ],
             "styles": [
               "src/styles.scss"
-            ]
+            ],
+            "outputPath": "dist/free-tech-tools-app"
           },
           "configurations": {
             "production": {
