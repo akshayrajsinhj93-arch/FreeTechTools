@@ -86,11 +86,18 @@
     "@type": "WebSite",
     "name": "FreeTechTools",
     "url": "https://freetechtools.com",
-    "potentialAction": {
+    "potentialAction": [{
       "@type": "SearchAction",
-      "target": "https://freetechtools.com/search?q={search_term_string}",
-      "query-input": "required name=search_term_string"
-    },
+      "target": {
+        "@type": "EntryPoint",
+        "urlTemplate": "https://freetechtools.com/search?q={search_term_string}"
+      },
+      "query-input": {
+        "@type": "PropertyValueSpecification",
+        "valueRequired": true,
+        "valueName": "search_term_string"
+      }
+    }],
     "publisher": {
       "@type": "Organization",
       "name": "FreeTechTools",
@@ -119,15 +126,12 @@
       "https://twitter.com/FreeTechTools",
       "https://github.com/yourusername/freetechtools"
     ],
-    "contactPoint": {
+    "contactPoint": [{
       "@type": "ContactPoint",
       "contactType": "customer support",
-      "url": "https://freetechtools.com/contact"
-    }
-  }
-  </script>
-      "query-input": "required name=search_term_string"
-    }
+      "url": "https://freetechtools.com/contact",
+      "availableLanguage": ["English"]
+    }]
   }
   </script>
 </body>
