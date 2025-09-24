@@ -48,8 +48,10 @@ jobs:
           # Build for root domain (custom domain)
           ng build --configuration production --base-href="/"
           
-          # GitHub Pages setup
+          # Set the dist path variable
           APP_DIST=dist/free-tech-tools-app
+          
+          # GitHub Pages setup
           cp $APP_DIST/index.html $APP_DIST/404.html
           touch $APP_DIST/.nojekyll
           
